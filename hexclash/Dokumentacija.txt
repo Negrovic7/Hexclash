@@ -1,0 +1,113 @@
+Klasa Tile:
+	Polja:
+		hp - Health figure
+		force - snaga napada figure
+		shape - lista tačaka (temena šestougla)
+		adjacent - lisat Tile-ova na određenoj željenoj udaljenosti
+		id - radi prepoznavanja i razlikovanja Tile-ova
+		colour - string koji predstavlja boju
+		bcolour - boja polja kad na njemu nema figura (bela ili zelena, tj teren ili šuma)
+		cPoint - centralna tačka šestougla
+		r - uloga figure
+	
+	Props - za sva polja
+	
+	Ctor - sa i bez parametara
+	
+	U ctoru sa parametrima se switchuje colour, i u zavisnosti od toga određuje role
+	
+	Metode:
+	
+		1. GetHP - setuje HP u zavisnosti od role-a
+		2. GetForce - setuje Force u zavisnosti od role-a
+
+
+Klasa Player:
+	Polja:
+		name - ime igrača
+		score - jedinstveno računata promenljiva za poene koje je pobednik osvojio
+		
+	Props - za sva polja
+	
+	Ctor - sa i bez parametara (bez nije ni potreban, ne koristi se)
+
+
+
+Form1.cs Metode:
+
+	1. CenterD
+		
+		Definiše graphics. Definiše niz tačaka "shape" koji predstavlja šestougao.
+		Na presetovanoj lokaciji u donjem centralnom delu forme iscrtava se šestougao.
+		Potrebno je nacrtati 8 takvih, te se kroz crtanje prolazi 8 puta (for).
+		Jedna switch naredba definiše koje atribute će svako polje table dobiti. Kod centra, kreće se od plavog kralja, preko plavog čuvara, terena i šume, pa do crvenih figura.
+		Svakako, u zavisnosti od boje polja, variraju i njegov Role, HP i force.
+	
+	2. OneFromC
+		
+		Slično kao prethodna metoda, samo što crta levu kolonu najbližu centralnoj od dole na gore, i u jednom trenutku resetuje y koordinatu na onu koja je bila.
+		Da bi se desna najbliža kolona crtala kako treba, mora se pomeriti x koordinata u desno.
+		
+	3. TwoFromC, ThreeFromC i Edges rade istu stvar, svaka za svoju udaljenost
+	
+	4. Distance računa razdaljinu između 2 tačke
+	
+	5. Mouseclick:
+	
+		1) Definisana move promenljiva tipa int (van mouseclicka) da daje informaciju o tome ko je na potezu, i u kojoj je fazi poteza.
+		2) To se postiže stavljanjem move%4 u switch naredbu (slučajevi 0, 1, 2 i 3)
+		3) case 0: plavi treba da selektuje svoju figuru na tabli. Svako polje ima svoj CPoint koji predstavlja centar šestougla.
+				   Nakon što je polje izabrano (ako jeste, ako ne move ostaje 0), upada u if koji pita da li je role izabrane figure neki plavi.
+				   Ako jeste, move ++ i na sledeći klik se upada u case 1
+				   Bitna napomena - adjacent je za sve figure osim Rangera(svetle figure) jedno polje u svakom smeru. Za rangere je 2
+				   Za odabir pomeraja ili napada mogu se izabrati samo polja iz adjacenta. Sve figure iz adjacent koje su suprotne boje idu u listu enemies, a iste u allies.
+				   
+		
+		4) case 2: naveden ovde jer je suviše sličan sa case 0 da bi ostao ispod. Jedina razlika je što proverava da li je selected Tile Crvena figura
+		
+		5) case 1 i 3: navedeni zajedno jer su pod istim blokom koda. U suštini, izabrano polje u case 0 i case 2 je u promenljivoj Selected, koja je van metode.
+		
+					   Sledeći korak je selektovanje polja na koje bi da se pomeri/napadne. Ako je izabrano polje u adjacent listi, ide na dalje provere.
+					   
+					   Ako je u pitanju neko iz allies liste, ništa se ne dešava, i move ostaje 1 ili 3.
+					   
+					   Ako selektuje sam sebe, program to gleda kao "unclick" i smanjuje move, omogućujući mu da bira neku drugu figuru.
+					   
+					   Ako je u pitanju neko iz enemies liste, skida mu onoliko hp koliko on ima forcea, i to se dalje grana na 2 opcije.
+					   
+							1) Nije ispod ili na 0 HP - move ++, igra se nastavlja
+							2) Napadnuta figura nema više Healtha - boja napadnute postaje boja napadača, kao i role, HP i force. Na mestu napadača je bcolour, hp i force su 0 a role je terrain
+							
+					   Ako je terrain - na mesto izabranog terraina dolaze colour, role, hp i force selected polja, a na mesto selecteda idu bcolour, i defaultne vrednosti HP-a, forcea-a i role-a
+					   
+	
+	6. ReturnC:
+	
+		Da bi svo ovo crtanje bazirano na stringovima colour i bcolour bilo moguće, treba nam metoda koja u zavisnosti od prosleđenog stringa vraća Color
+		Ta novodobijena boja nastaje ubacivanjem parametra u switch. U drugim metodama se inicijalizuje new Color preko metode.
+		
+		
+
+Form2.cs 
+
+	Ova forma se pojavljuje kod Game over pop-up mboxa. Ona služi za rad sa XML-om. U xml se ubacuju dobijeni skor i u textbox ubačeno ime.
+	Takođe, foreach koji prolazi kroz učitanu listu playera iz xmla proverava da li je postignut high score u trenutnom sessionu. Ako jeste, o tome igrača obavesti.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

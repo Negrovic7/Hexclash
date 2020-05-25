@@ -1,6 +1,6 @@
 ﻿namespace hexclash
 {
-    partial class Form1
+    partial class Hexclash
     {
         /// <summary>
         /// Required designer variable.
@@ -28,15 +28,27 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.events = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
-            // Form1
+            // events
+            // 
+            this.events.Enabled = false;
+            this.events.FormattingEnabled = true;
+            this.events.Location = new System.Drawing.Point(790, 75);
+            this.events.Name = "events";
+            this.events.Size = new System.Drawing.Size(269, 550);
+            this.events.TabIndex = 0;
+            // 
+            // Hexclash
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(850, 699);
+            this.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ClientSize = new System.Drawing.Size(1109, 699);
+            this.Controls.Add(this.events);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
-            this.Name = "Form1";
+            this.Name = "Hexclash";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
@@ -46,6 +58,7 @@
         }
 
         #endregion
+        private System.Windows.Forms.ListBox events;
     }
 }
 
